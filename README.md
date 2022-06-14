@@ -1,4 +1,4 @@
-# TAD-Compare
+# TAD-ssf
 Scripts for calculating conserved/fused/seperated TADs among 2 samples
 
 This is how this script works:
