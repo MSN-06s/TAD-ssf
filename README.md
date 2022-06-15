@@ -18,7 +18,7 @@ Fushion: Sum<0,no "1" presents in the bd.comp column in the corresponding region
 Seperation: Sum>0,no "-1" presents in the bd.comp column in the corresponding region or "-1" presents, but min<=gap.threshold
 
 ![Shift](https://user-images.githubusercontent.com/53066081/173773253-3158c35e-18c5-4577-a99c-76f0512b28b1.png)
-Shift: Sum=0,"1" Fushion: Sum<0,no "1" presents in the bd.comp column in the corresponding region or 1 presents, but min<=gap.threshold and min>=gap.threshold
+Shift: Sum=0,"1" presents in the bd.comp column in the corresponding region and min>=gap.threshold
 
 ![Seperation_shift](https://user-images.githubusercontent.com/53066081/173773785-df35f13f-92a9-4fd6-9bf6-a9aba7a3c321.png)
 Seperation&Shift: Sum>0, "-1" presents in the bd.comp column in the corresponding region and min>=gap.threshold
