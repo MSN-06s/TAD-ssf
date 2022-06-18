@@ -224,10 +224,8 @@ cat (sprintf("Seperated region takes %s",seperation/total))
 cat (sprintf("Fushioned&shifted region takes %s",fushion.shift/total))
 cat (sprintf("Seperated$shifted region takes %s",seperation.shift/total))
 
-write.table(shift.mat,file="shifted domains.bed")
-write.table(seperation.mat,file="seperated domains.bed")
-write.table(fushion.mat,file="fused domains.bed")
-write.table(seperation.shift.mat,file="seperated and shifted domains.bed")
-write.table(fushion.shift.mat,file="fused and shifted domains.bed")
-
-                                             
+write.table(shift.mat,file="shifted domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
+write.table(seperation.mat,file="seperated domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
+write.table(fushion.mat,file="fused domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
+write.table(seperation.shift.mat,file="seperated and shifted domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
+write.table(fushion.shift.mat,file="fused and shifted domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
