@@ -10,7 +10,7 @@ boundary.2<- "CNG_boundaries.bed"
 #boundaries produced by Hicexploerer etc.
 ref<-"SMG_50000_50000_abs.bed"
 #Matrix bins on Chromosomes produced by hicpro
-gap.threshold<-2
+gap.threshold<-1
 #Threshold of num. of bins TAD shift to be identified as a shift
 
 
@@ -80,6 +80,13 @@ fushion.shift=0
 seperation.shift=0
 total=0
 
+#
+shift.mat<-c("chr","start","end")
+fushion.mat<-c("chr","start","end")
+seperation.mat<-c("chr","start","end")
+fushion.shift.mat<-c("chr","start","end")
+seperation.shift.mat<-c("chr","start","end")
+
 for (o in 1:22){
   t<-subset(j,chr==sprintf("chr%s",o))
   zero<-t[grep(pattern = "1",t[,7]),]
@@ -106,40 +113,47 @@ for (o in 1:22){
       if (1 %in% test.mat[,6]){
         if (min.gap>=gap.threshold){
           fushion.shift<-fushion.shift+dis
+          fushion.shift.mat<-rbind(fushion.shift.mat,c(sprintf("chr%s",o),start,end))
         }
         else {
           fushion<-fushion+dis
+          fushion.mat<-rbind(fushion.mat,c(sprintf("chr%s",o),start,end))
         }
       }
       else{ 
         fushion<-fushion+dis
+        fushion.mat<-rbind(fushion.mat,c(sprintf("chr%s",o),start,end))
       }
     }
     else if (sum>0){
       if (-1 %in% test.mat[,6]){
         if (min.gap>=gap.threshold){
           seperation.shift<-seperation.shift+dis
+          seperation.shift.mat<-rbind(seperation.shift.mat,c(sprintf("chr%s",o),start,end))
         }
         else{
           seperation<-seperation+dis
+          seperation.mat<-rbind(seperation.mat,c(sprintf("chr%s",o),start,end))
         }
       }
       else{
         seperation<-seperation+dis
+        seperation.mat<-rbind(seperation.mat,c(sprintf("chr%s",o),start,end))
       }
     }
     else if (sum==0){
       if (-1 %in% test.mat[,6]){
         if (min.gap>=gap.threshold){
           shift<-shift+dis
+          shift.mat<-rbind(shift.mat,c(sprintf("chr%s",o),start,end))
         }
       }
     }
   }
 }
-
 t<-subset(j,chr=="chrX")
 zero<-t[grep(pattern = "1",t[,7]),]
+#rownames(t) <- seq(1,nrow(t),1)
 zero.line<-row.names(zero)
 zero.line<-as.numeric(zero.line)
 zero.num<-length(zero.line)
@@ -163,32 +177,39 @@ for (i in 1:zero.num){
     if (1 %in% test.mat[,6]){
       if (min.gap>=gap.threshold){
         fushion.shift<-fushion.shift+dis
+        fushion.shift.mat<-rbind(fushion.shift.mat,c("chrX",start,end))
       }
       else {
         fushion<-fushion+dis
+        fushion.mat<-rbind(fushion.mat,c("chrX",start,end))
       }
     }
     else{ 
       fushion<-fushion+dis
+      fushion.mat<-rbind(fushion.mat,c("chrX",start,end))
     }
   }
   else if (sum>0){
     if (-1 %in% test.mat[,6]){
       if (min.gap>=gap.threshold){
         seperation.shift<-seperation.shift+dis
+        seperation.shift.mat<-rbind(seperation.shift.mat,c("chrX",start,end))
       }
       else{
         seperation<-seperation+dis
+        seperation.mat<-rbind(seperation.mat,c("chrX",start,end))
       }
     }
     else{
       seperation<-seperation+dis
+      seperation.mat<-rbind(seperation.mat,c("chrX",start,end))
     }
   }
   else if (sum==0){
     if (-1 %in% test.mat[,6]){
       if (min.gap>=gap.threshold){
         shift<-shift+dis
+        shift.mat<-rbind(shift.mat,c("chrX",start,end))
       }
     }
   }
@@ -203,5 +224,10 @@ cat (sprintf("Seperated region takes %s",seperation/total))
 cat (sprintf("Fushioned&shifted region takes %s",fushion.shift/total))
 cat (sprintf("Seperated$shifted region takes %s",seperation.shift/total))
 
+write.table(shift.mat,file="shifted domains.bed")
+write.table(seperation.mat,file="seperated domains.bed")
+write.table(fushion.mat,file="fused domains.bed")
+write.table(seperation.shift.mat,file="seperated and shifted domains.bed")
+write.table(fushion.shift.mat,file="fused and shifted domains.bed")
 
                                              
