@@ -5,14 +5,27 @@ library(tidyverse)
 #boundary.2<-args[2]
 #ref<-args[3]
 
-boundary.1<- "SMG_boundaries.bed"
-boundary.2<- "CNG_boundaries.bed"
-#boundaries produced by Hicexploerer etc.
-ref<-"SMG_50000_50000_abs.bed"
-#Matrix bins on Chromosomes produced by hicpro
-gap.threshold<-1
-#Threshold of num. of bins TAD shift to be identified as a shift
+print.usage <- function() {
+  cat ("Perform TAD boundaries differential analysis.")
+  cat("\n")
+  cat("Usage:")
+  cat("\n")
+  cat("$ ./TAD_ssf.r boundary_file_1 boundary_file_2 reference_file gap_threshold")
+  cat("\n")
+}
 
+args <- commandArgs(trailingOnly=TRUE)
+if (length(args) < 4) {
+  print.usage()
+  stop()
+}
+boundary.1 <- args[1]
+boundary.2 <- args[2]
+#boundaries produced by Hicexploerer etc.
+ref <- args[3]
+#Matrix bins distribution on Chromosomes produced by hicpro
+gap.threshold <- args[4]
+#Threshold of num. of bins TAD shift to be identified as a shift
 
 s1<-read.table(sprintf("%s",boundary.1))
 s2<-read.table(sprintf("%s",boundary.2))
@@ -23,8 +36,11 @@ num.boundary.2<-nrow(s2)
 resolution<-re[1,3]-re[1,2]+0
                                              
 cat (sprintf("The resolution of analysis is %s",resolution))
+cat("\n")
 cat (sprintf("The number of boundaries of sample1 is %s",num.boundary.1))
+cat("\n")
 cat (sprintf("The number of boundaries of sample2 is %s",num.boundary.2))
+cat("\n")
 
 s1$chr<-c('chr')
 s2$chr<-c('chr')
@@ -218,14 +234,22 @@ for (i in 1:zero.num){
 conserved<-total-shift-fushion-seperation-fushion.shift-seperation.shift
 
 cat (sprintf("Conserved region takes %s",conserved/total))
+cat("\n")
 cat (sprintf("Shifted region takes %s",shift/total))
+cat("\n")
 cat (sprintf("Fushioned region takes %s",fushion/total))
+cat("\n")
 cat (sprintf("Seperated region takes %s",seperation/total))
+cat("\n")
 cat (sprintf("Fushioned&shifted region takes %s",fushion.shift/total))
+cat("\n")
 cat (sprintf("Seperated$shifted region takes %s",seperation.shift/total))
+cat("\n")
 
 write.table(shift.mat,file="shifted domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
 write.table(seperation.mat,file="seperated domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
 write.table(fushion.mat,file="fused domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
 write.table(seperation.shift.mat,file="seperated and shifted domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
 write.table(fushion.shift.mat,file="fused and shifted domains.bed",row.names = FALSE,col.names = FALSE,quote = FALSE)
+
+                                             
