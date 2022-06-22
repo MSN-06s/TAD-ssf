@@ -1,6 +1,9 @@
 # TAD-ssf
 Scripts for calculating conserved/fused/seperated TADs among 2 samples
 
+Usage:
+./TAD_ssf.r boundary_file_1 boundary_file_2 reference_file gap_threshold
+
 This is how this script works:
 1. Add a column with "1" in the boudary files (column "bd")
 2. Join the boudaries file with bins distribution file with the the "bd" column renamed as "bd.s1" and "bd.s2"
