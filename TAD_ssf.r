@@ -11,12 +11,12 @@ print.usage <- function() {
   cat("\n")
   cat("Usage:")
   cat("\n")
-  cat("$ ./TAD_ssf.r boundary_file_1 boundary_file_2 reference_file gap_threshold")
+  cat("$ ./TAD_ssf.r boundary_file_1 boundary_file_2 reference_file gap_threshold number_of_chromosomes")
   cat("\n")
 }
 
 args <- commandArgs(trailingOnly=TRUE)
-if (length(args) < 4) {
+if (length(args) < 5) {
   print.usage()
   stop()
 }
@@ -27,6 +27,8 @@ ref <- args[3]
 #Matrix bins distribution on Chromosomes produced by hicpro
 gap.threshold <- args[4]
 #Threshold of num. of bins TAD shift to be identified as a shift
+num.chromosomes <- args[5]
+#Number of chromosomes except X/Y, for example, when analysis human data,num.chromosomes=22
 
 s1<-read.table(sprintf("%s",boundary.1))
 s2<-read.table(sprintf("%s",boundary.2))
@@ -56,8 +58,8 @@ s2<-s2[,-c(4,5,6)]
 colnames(s1)<-c('chr','start','end')
 colnames(s2)<-c('chr','start','end')
 colnames(re)<-c('chr','start','end')
-re$start<-re$start+25000
-re$end<-re$end+25000
+re$start<-re$start+resolution/2
+re$end<-re$end+resolution/2
 
 s1$est<-str_c(s1$chr,'.',s1$start,'.',s1$end)
 s2$est<-str_c(s2$chr,'.',s2$start,'.',s2$end)
@@ -104,7 +106,7 @@ seperation.mat<-c("chr","start","end")
 fushion.shift.mat<-c("chr","start","end")
 seperation.shift.mat<-c("chr","start","end")
 
-for (o in 1:22){
+for (o in 1:num.chromosomes){
   t<-subset(j,chr==sprintf("chr%s",o))
   zero<-t[grep(pattern = "1",t[,7]),]
   zero.line<-row.names(zero)
