@@ -124,8 +124,8 @@ for (o in 1:num.chromosomes){
     i.m.line<-t[grep(pattern = "-1",test.mat[,6]),]
     i.m.line.num<-as.numeric(row.names(i.m.line))
     min.gap<-min(abs(i.m.line.num-i.line.num))
-    start=j[zero.line[i],2]
-    end=j[zero.line[n],3]
+    start=j[zero.line[i],2]+resolution/2
+    end=j[zero.line[n],3]-resolution/2
     dis<-end-start
     sum<-sum(test.mat[,6])
     if (sum<0){
@@ -188,8 +188,8 @@ for (i in 1:zero.num){
   i.m.line<-t[grep(pattern = "-1",test.mat[,6]),]
   i.m.line.num<-as.numeric(row.names(i.m.line))
   min.gap<-min(abs(i.m.line.num-i.line.num))
-  start=j[zero.line[i],2]
-  end=j[zero.line[n],3]
+  start=j[zero.line[i],2]+resolution/2
+  end=j[zero.line[n],3]-resolution/2
   dis<-end-start
   sum<-sum(test.mat[,6])
   if (sum<0){
